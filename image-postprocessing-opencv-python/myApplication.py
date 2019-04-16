@@ -92,54 +92,15 @@ while True:
 
     # Turn buf into img array (640 * 480 * 4 bytes (ARGB)) to be used with OpenCV.
     img = numpy.frombuffer(buf, numpy.uint8).reshape(480, 640, 4)
-    
-    crop_img = img[0:320, 0:640]
-    kernel = numpy.ones((5,5), numpy.uint8)
-   
-    img = crop_img
-    hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-    
-    lower_blue = numpy.array([100,100,30])
-    upper_blue = numpy.array([140,255,255])
-    
-    lower_yellow = numpy.array([20, 100, 100])
-    upper_yellow = numpy.array([30, 255, 255])
-    
-    mask_blue = cv2.inRange(hsv, lower_blue, upper_blue)
-    dilated_blue = cv2.dilate(mask_blue, kernel, iterations = 5)
-    res_blue = cv2.bitwise_and(img, img, mask= mask_blue)
-    
-    mask_yellow = cv2.inRange(hsv, lower_yellow, upper_yellow)
-    dilated_yellow = cv2.dilate(mask_yellow, kernel, iterations = 5)
-    res_yellow = cv2.bitwise_and(img, img, mask= mask_yellow)
-    
-    edges = cv2.Canny(dilated_blue, 30, 150)
-    
-    
-    lines = cv2.HoughLines(edges,1,numpy.pi/180,25)
-    
-    
-    for rho,theta in lines[0]:
-        a = numpy.cos(theta)
-        b = numpy.sin(theta)
-        x0 = a*rho
-        y0 = b*rho
-        x1 = int(x0 + 1000*(-b))
-        y1 = int(y0 + 1000*(a))
-        x2 = int(x0 - 1000*(-b))
-        y2 = int(y0 - 1000*(a))
-        
-        print "x1 = " + str(x1)
-        print "x2 = " + str(x2)
 
-        cv2.line(img,(x1,y1),(x2,y2),(0,0,255),2)
-    
-    
-    # TODO: Disable the following lines before running on Kiwi:
-    cv2.imshow('Blue cones',dilated_blue)
-    cv2.imshow('Yellow cones', dilated_yellow)
-    cv2.imshow('Normal img', img)
-    cv2.imshow('canny_blue', edges)
+    ############################################################################
+    # TODO: Add some image processing logic here.
+
+    # The following example is adding a red rectangle and displaying the result.
+    cv2.rectangle(img, (50, 50), (100, 100), (0,0,255), 2)
+
+    # TODO: Disable the following two lines before running on Kiwi:
+    cv2.imshow("image", img);
     cv2.waitKey(2);
 
     ############################################################################
